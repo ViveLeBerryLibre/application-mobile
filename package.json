@@ -1,8 +1,8 @@
 {
-  "name": "portailpartenairedupoleenergieservicedugroupeherve",
-  "version": "2.4.3",
+  "name": "rapportapp",
+  "version": "0.0.1",
   "private": true,
-  "description": "Portail Partenaire du pole Energie Service",
+  "description": "Application de génération de rapports",
   "scripts": {
     "serve": "vue-cli-service serve --mode integration",
     "build": "vue-cli-service build --mode integration",
@@ -86,8 +86,5 @@
     "typescript": "~4.8.4",
     "vue-sqlite-hook": "^4.0.0",
     "webpack": "^5.91.0"
-  },
-  "publishConfig": {
-    "registry": "https://nexus.lan.groupeherve.com/nexus/content/repositories/groupeherve-npm/"
   }
 }

@@ -21,7 +21,7 @@ import StatsPage from '@/modules/Stats/StatsPage.vue';
 import SuiviPreventif from '@/modules/Intervention/SuiviIntervention/components/Preventif/SuiviPreventif.vue';
 import SuiviTravaux from '@/modules/Intervention/SuiviIntervention/components/Travaux/SuiviTravaux.vue';
 import TagNFC from '@/modules/TagNFC/Page/TagNFC.vue';
-import {registerGuard} from '@/router/Guards';
+//import {registerGuard} from '@/router/Guards';
 import SatisfactionPage from '@/modules/Satisfaction/SatisfactionPage.vue';
 import AccueilSatisfactionPage from '@/modules/Satisfaction/AccueilSatisfactionPage.vue';
 
@@ -241,6 +241,6 @@ const router = createRouter({
   routes
 });
 
-registerGuard(router);
+//registerGuard(router);
 
 export default router;

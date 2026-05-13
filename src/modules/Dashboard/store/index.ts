@@ -1,32 +1,15 @@
 import { Module } from 'vuex';
+//import {mutations} from './mutations';
+//import {getters} from './getters';
+import {RootState} from '@/plugins/store';
+import {DashBoardState, state } from './state';
 
-export interface DashBoardState {
-  // Add any dashboard-specific state here if needed in the future
-}
-
-const state: DashBoardState = {
-  // Initialize state
-};
-
-const getters = {
-  // Add getters if needed
-};
-
-const mutations = {
-  // Add mutations if needed
-};
-
-const actions = {
-  // Add actions if needed
-};
-
-const DashboardModule: Module<DashBoardState, any> = {
+const DashboardModule: Module<DashBoardState, RootState> = {
   namespaced: true,
   state,
-  getters,
-  mutations,
-  actions
+  //getters,
+  //mutations,
 };
 
 export default DashboardModule;
-export { DashBoardState };
+export type { DashBoardState };
