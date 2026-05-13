@@ -5,7 +5,7 @@
         <ion-title>Bardary Brothers</ion-title>
       </ion-toolbar>
     </ion-header>
-    
+
     <ion-content :fullscreen="true">
       <div class="dashboard-container">
         <!-- User Info Button -->
@@ -77,11 +77,14 @@ import {
   IonCardContent, 
   IonButton, 
   IonIcon,
-  alertController
+  alertController,
+  loadingController,
+  toastController
 } from '@ionic/vue';
 import { defineComponent, ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import userData from '@/data/userData.json';
+import OpenAIWhisperService from '@/common/services/OpenAIWhisperService';
 
 export default defineComponent({
   name: 'Dashboard',
@@ -99,6 +102,8 @@ export default defineComponent({
   setup() {
     const router = useRouter();
     const userInfo = ref(userData);
+    const isRecording = ref(false);
+    const transcribedText = ref('');
 
     const showUserInfo = async () => {
       const alert = await alertController.create({
@@ -122,21 +127,191 @@ export default defineComponent({
     };
 
     const navigateToNotes = () => {
-      // For now, show an alert since Notes page doesn't exist yet
-      showNotesAlert();
+      showVoiceNotesOptions();
     };
 
-    const showNotesAlert = async () => {
+    const showVoiceNotesOptions = async () => {
       const alert = await alertController.create({
-        header: 'Notes',
-        message: 'La fonctionnalité Notes sera bientôt disponible.',
+        header: 'Notes Vocales',
+        message: 'Choisissez une option pour vos notes:',
+        buttons: [
+          {
+            text: 'Configurer API Key',
+            handler: () => {
+              showApiKeyInput();
+            }
+          },
+          {
+            text: 'Enregistrer Note Vocale',
+            handler: () => {
+              startVoiceRecording();
+            }
+          },
+          {
+            text: 'Voir Notes Transcrites',
+            handler: () => {
+              showTranscribedNotes();
+            }
+          },
+          {
+            text: 'Annuler',
+            role: 'cancel'
+          }
+        ]
+      });
+      await alert.present();
+    };
+
+    const showApiKeyInput = async () => {
+      const alert = await alertController.create({
+        header: 'Configuration OpenAI',
+        message: 'Entrez votre clé API OpenAI pour utiliser Whisper:',
+        inputs: [
+          {
+            name: 'apiKey',
+            type: 'password',
+            placeholder: 'sk-...'
+          }
+        ],
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel'
+          },
+          {
+            text: 'Sauvegarder',
+            handler: (data) => {
+              if (data.apiKey && data.apiKey.trim()) {
+                OpenAIWhisperService.setApiKey(data.apiKey.trim());
+                showToast('Clé API configurée avec succès!', 'success');
+                return true;
+              } else {
+                showToast('Veuillez entrer une clé API valide', 'danger');
+                return false;
+              }
+            }
+          }
+        ]
+      });
+      await alert.present();
+    };
+
+    const startVoiceRecording = async () => {
+      try {
+        const loading = await loadingController.create({
+          message: 'Préparation de l\'enregistrement...'
+        });
+        await loading.present();
+
+        const started = await OpenAIWhisperService.startRecording();
+        await loading.dismiss();
+
+        if (started) {
+          isRecording.value = true;
+          showRecordingControls();
+        } else {
+          showToast('Impossible de démarrer l\'enregistrement', 'danger');
+        }
+      } catch (error) {
+        showToast('Erreur lors du démarrage de l\'enregistrement', 'danger');
+        console.error('Recording error:', error);
+      }
+    };
+
+    const showRecordingControls = async () => {
+      const alert = await alertController.create({
+        header: 'Enregistrement en cours...',
+        message: 'Parlez maintenant. Appuyez sur "Arrêter" quand vous avez terminé.',
+        buttons: [
+          {
+            text: 'Arrêter l\'enregistrement',
+            handler: () => {
+              stopVoiceRecording();
+            }
+          }
+        ],
+        backdropDismiss: false
+      });
+      await alert.present();
+    };
+
+    const stopVoiceRecording = async () => {
+      try {
+        const loading = await loadingController.create({
+          message: 'Arrêt de l\'enregistrement et transcription...'
+        });
+        await loading.present();
+
+        const recordingResult = await OpenAIWhisperService.stopRecording();
+        isRecording.value = false;
+
+        if (recordingResult) {
+          const transcriptionResult = await OpenAIWhisperService.transcribeAudio(recordingResult);
+          await loading.dismiss();
+
+          if (transcriptionResult.success) {
+            transcribedText.value = transcriptionResult.text;
+            showTranscriptionResult(transcriptionResult.text);
+          } else {
+            showToast(`Erreur de transcription: ${transcriptionResult.error}`, 'danger');
+          }
+        } else {
+          await loading.dismiss();
+          showToast('Erreur lors de l\'arrêt de l\'enregistrement', 'danger');
+        }
+      } catch (error) {
+        await loadingController.dismiss();
+        showToast('Erreur lors de la transcription', 'danger');
+        console.error('Transcription error:', error);
+      }
+    };
+
+    const showTranscriptionResult = async (text: string) => {
+      const alert = await alertController.create({
+        header: 'Transcription',
+        message: `<p><strong>Texte transcrit:</strong></p><p>${text}</p>`,
+        buttons: [
+          {
+            text: 'Copier',
+            handler: () => {
+              navigator.clipboard.writeText(text);
+              showToast('Texte copié dans le presse-papiers', 'success');
+            }
+          },
+          {
+            text: 'OK'
+          }
+        ]
+      });
+      await alert.present();
+    };
+
+    const showTranscribedNotes = async () => {
+      const message = transcribedText.value 
+        ? `<p><strong>Dernière note transcrite:</strong></p><p>${transcribedText.value}</p>`
+        : 'Aucune note transcrite disponible.';
+
+      const alert = await alertController.create({
+        header: 'Notes Transcrites',
+        message: message,
         buttons: ['OK']
       });
       await alert.present();
     };
 
+    const showToast = async (message: string, color: 'success' | 'danger' | 'warning' = 'success') => {
+      const toast = await toastController.create({
+        message: message,
+        duration: 3000,
+        color: color,
+        position: 'bottom'
+      });
+      await toast.present();
+    };
+
     return {
       userData: userInfo,
+      isRecording,
       showUserInfo,
       navigateToDevis,
       navigateToRapports,
