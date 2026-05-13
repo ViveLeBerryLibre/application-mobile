@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.gh</groupId>
+	<artifactId>portail.partenaire.mobile</artifactId>
+	<version>2.4.3</version>
+	<name>portail.partenaire.mobile</name>
+    <scm>
+		<url>https://gitlab.groupeherve.com/imdeo/applications/mobile/portail-extranet.git</url>
+		<connection>scm:git:https://gitlab.groupeherve.com/imdeo/applications/mobile/portail-extranet.git</connection>
+		<developerConnection>scm:git:https://gitlab.groupeherve.com/imdeo/applications/mobile/portail-extranet.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+    <distributionManagement>
+		<repository>
+			<id>groupeherve-releases</id>
+			<name>groupeherve-releases Repository</name>
+			<url>https://nexus.lan.groupeherve.com/nexus/content/repositories/groupeherve-releases/</url>
+		</repository>
+	</distributionManagement>
+    <build>
+        <sourceDirectory>packages</sourceDirectory>
+        <plugins>
+            <plugin>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>2.8.2</version>
+                <executions>
+                    <execution>
+                        <id>deploy-file</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy-file</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

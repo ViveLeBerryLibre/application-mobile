@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Portail Partenaire du Pole Energie du Groupe Hervé</string>
+    <string name="title_activity_main">Portail Partenaire du Pole Energie du Groupe Hervé</string>
+    <string name="package_name">com.gh.mobile.portail.extranet</string>
+    <string name="custom_url_scheme">com.gh.mobile.portail.extranet</string>
+</resources>

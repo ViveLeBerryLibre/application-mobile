@@ -1,0 +1,242 @@
+/* Ionic Variables and Theming. For more info, please see:
+http://ionicframework.com/docs/theming/ */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+/** Ionic CSS Variables **/
+:root {
+  /** primary **/
+  --ion-color-primary: var(--bouton-d-action-principal);
+  --ion-color-primary-rgb: 55, 55, 55;
+  --ion-color-primary-contrast: var(--blanc);
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
+  --ion-color-primary-shade: #3171e0;
+  --ion-color-primary-tint: #4c8dff;
+
+  /** secondary **/
+  --ion-color-secondary: #3dc2ff;
+  --ion-color-secondary-rgb: 61, 194, 255;
+  --ion-color-secondary-contrast: var(--blanc);
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #36abe0;
+  --ion-color-secondary-tint: #50c8ff;
+
+  /** tertiary **/
+  --ion-color-tertiary: #5260ff;
+  --ion-color-tertiary-rgb: 82, 96, 255;
+  --ion-color-tertiary-contrast: var(--blanc);
+  --ion-color-tertiary-contrast-rgb: 255, 255, 255;
+  --ion-color-tertiary-shade: #4854e0;
+  --ion-color-tertiary-tint: #6370ff;
+
+  /** success **/
+  --ion-color-success: #2dd36f;
+  --ion-color-success-rgb: 45, 211, 111;
+  --ion-color-success-contrast: var(--blanc);
+  --ion-color-success-contrast-rgb: 255, 255, 255;
+  --ion-color-success-shade: #28ba62;
+  --ion-color-success-tint: #42d77d;
+
+  /** warning **/
+  --ion-color-warning: #ffc409;
+  --ion-color-warning-rgb: 255, 196, 9;
+  --ion-color-warning-contrast: var(--noir);
+  --ion-color-warning-contrast-rgb: 0, 0, 0;
+  --ion-color-warning-shade: #e0ac08;
+  --ion-color-warning-tint: #ffca22;
+
+  /** danger **/
+  --ion-color-danger: #eb445a;
+  --ion-color-danger-rgb: 235, 68, 90;
+  --ion-color-danger-contrast: var(--blanc);
+  --ion-color-danger-contrast-rgb: 255, 255, 255;
+  --ion-color-danger-shade: #cf3c4f;
+  --ion-color-danger-tint: #ed576b;
+
+  /** dark **/
+  --ion-color-dark: #222428;
+  --ion-color-dark-rgb: 34, 36, 40;
+  --ion-color-dark-contrast: var(--blanc);
+  --ion-color-dark-contrast-rgb: 255, 255, 255;
+  --ion-color-dark-shade: #1e2023;
+  --ion-color-dark-tint: #383a3e;
+
+  /** medium **/
+  --ion-color-medium: #92949c;
+  --ion-color-medium-rgb: 146, 148, 156;
+  --ion-color-medium-contrast: var(--blanc);
+  --ion-color-medium-contrast-rgb: 255, 255, 255;
+  --ion-color-medium-shade: #808289;
+  --ion-color-medium-tint: #9d9fa6;
+
+  /** light **/
+  --ion-color-light: #f4f5f8;
+  --ion-color-light-rgb: 244, 245, 248;
+  --ion-color-light-contrast: var(--noir);
+  --ion-color-light-contrast-rgb: 0, 0, 0;
+  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-tint: #f5f6f9;
+
+  --ion-background-color-primary-input: var(--blanc-casse);
+  --ion-icon-color-primary-input: var(--gris-profond);
+  --ion-background-color-primary-soon: #6FB86F;
+  --ion-card-background-color-soon: #AFAFAF4D;
+  --ion-input-border-color: #AFAFAF;
+  --ion-background-color-step-inactive: #999999;
+  --ion-toggle-color-inactive: #4D4D4D;
+  --ion-toggle-color: var(--bouton-d-action-principal);
+  --ion-background-color: var(--blanc);
+
+  /* Colors: */
+  --rouge: #D64343;
+  --blanc-casse: #EEEEEE;
+  --gris-profond: #373737;
+  --desable: #777777;
+  --blanc: #FFFFFF;
+  --noir: #000000;
+  --alerte: #FF5E32;
+  --ok: #b8d25d;
+  --bouton-d-action-principal: #424B54;
+  --principale: #FFFFFF;
+  --box-shadow: #16141429;
+  --succes: #4CAF50;
+  --gris-leger:#CECECE;
+  --bandeau: #5299D3;
+
+  /** couleurs etats **/
+  --etat-vert: #B8D25D;
+  --etat-aubergine: #533745;
+  --etat-violet: #592E83;
+  --etat-bleu: #5299D3;
+  --etat-rouge: #E54B4B;
+  --etat-cuivre: #CE8964;
+  --etat-noir: #76949F;
+  --etat-jaune:#EAC435;
+
+  /** Couleurs des sociétés, correspond également au nom du .svg de la société **/
+  --actem-otel: #04203f;
+  --alerteo: #80ba1a;
+  --alvazzi: #ef172f;
+  --billon: #0f1a68;
+  --bse: #6ebb20;
+  --chaillet: #e63339;
+  --chouteau: #01a0c6;
+  --ctl: #08275c;
+  --eddy-buchard: #111183;
+  --guards: #2f444f;
+  --herve-concept-design: #459a60;
+  --herve-management: #0a2463;
+  --herve-thermique: #ff5a00;
+  --herve-thermique-maroc: #ff6601;
+  --imdeo: #3f80b9;
+  --onex: #fd5a1e;
+  --pelzer: #fff018;
+  --pelzer-luxembourg: #fff018;
+  --smct: #120a7f;
+  --sn-hydro: #ffb515;
+  --tolerie-industrielle: #fe661c; 
+  --inconnue: var(--bandeau);
+
+    /** Custom Font **/
+  font-variant-numeric: lining-nums;
+  --font-family-roboto: 'Roboto';
+  --font-family-segoe: 'Segoe UI';
+  --font-family-raleway: 'Raleway';
+  --font-style-normal: normal;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --font-weight-normal: 400;
+  --font-weight-300: 300;
+  --font-weight-600: 600;
+  --font-weight-800: 800;
+  --font-size-very-small: 12px;
+  --font-size-small: 14px;
+  --font-size-low-medium: 16px;
+  --font-size-medium: 18px;
+  --font-size-high-medium: 20px;
+  --font-size-low-large: 22px;
+  --font-size-large: 24px;
+  --font-size-high-large: 26px;
+  --font-size-very-large: 28px;
+  --font-size-biggest: 32px;
+  --character-spacing-0: 0px;
+  --line-spacing-very-small: 16px;
+  --line-spacing-small: 19px;
+  --line-spacing-low-medium: 21px;
+  --line-spacing-medium: 24px;
+  --line-spacing-low-large: 26px;
+  --line-spacing-large: 27px;
+  --line-spacing-very-large: 29px;
+  --line-spacing-biggest: 33px;
+  --text-transform-uppercase: uppercase; 
+}
+
+.modal-action-attachment {
+  --height: 20%;
+  --min-width: 100%;
+  --border-radius: 5px;
+  align-items: flex-end;
+}
+
+.modal-show-image {
+  padding: 25% 10%;
+  --border-radius: 5px;
+  align-items: flex-end;
+}
+
+.modal-intervention-equipment-list{
+  padding: 25% 7%;
+  --border-radius: 5px;
+  align-items: flex-end;
+}
+
+.loading-controller-text {
+  font-family: var(--font-family-raleway);
+  font-size: var(--font-size-medium);
+  color: var(--gris-profond);
+}
+
+/* classes css pour resize auto des modales : utiliser <ion-modal css-class="auto-height"> avec une div a l'interieur : <div class="inner-content"> */
+ion-modal.auto-height {
+  --height: auto;
+  --width: 85vw;
+  --border-radius: 5px;
+  padding: 0 7%;
+}
+ion-modal.auto-height .ion-page {
+	position: relative;
+	display: block;
+	contain: content;
+}
+ion-modal.auto-height .ion-page .inner-content {
+	max-height: 90vh;
+	overflow: auto;
+}
+
+
+.toast-error-theming{
+  color: var(--blanc);
+  --background: var(--rouge);
+}
+.toast-success-theming{
+  color: var(--gris-profond);
+  --background: var(--ok);
+}
+
+/* text wrap on ion-select-option */
+.alert-radio-label.sc-ion-alert-md {
+  white-space: pre-line !important;
+}
+.alert-radio-label.sc-ion-alert-ios {
+  white-space: pre-line !important;
+}
+
+/* css de la ion-action-sheet AddAttachment */
+.attachment .action-sheet-button {
+  font-family: var(--font-family-raleway);
+}
+.attachment .action-sheet-title {
+  font-family: var(--font-family-raleway);
+  font-weight: var(--font-weight-medium);
+  font-size: var(--font-size-medium);
+}
+

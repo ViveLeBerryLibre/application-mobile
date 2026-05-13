@@ -1,0 +1,7 @@
+{
+  "name": "Portail Partenaire du Pole Energie du Groupe Hervé",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue"
+}

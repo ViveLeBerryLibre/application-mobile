@@ -1,0 +1,21 @@
+{
+	"appId": "com.gh.mobile.portail.extranet",
+	"appName": "Portail Partenaire du Pole Energie du Groupe Hervé",
+	"bundledWebRuntime": false,
+	"npmClient": "npm",
+	"webDir": "dist",
+	"plugins": {
+		"SplashScreen": {
+			"launchShowDuration": 1000
+		},
+		"Keyboard": {
+			"resize": "none"
+		},
+		"PhonegapNfc": {
+			"ios": {
+				"path": "../node_modules/phonegap-nfc/src/ios"
+			}
+		}
+	},
+	"cordova": {}
+}

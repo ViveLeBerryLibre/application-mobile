@@ -1,0 +1,9 @@
+{
+  "privacyManifestVersion": "1.0",
+  "apiUsage": [
+    {
+      "api": "com.apple.developer.nfc.read",
+      "reason": "TAG_READING_FOR_USER"
+    }
+  ]
+}

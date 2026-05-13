@@ -1,0 +1,24 @@
+{
+	"android": {
+        "release": {
+            "keystore": "..\\..\\certificates\\imdeo.keystore",
+            "storePassword": "imd7777",
+            "alias": "imdeo",
+            "password" : "imd7777",
+            "keystoreType": ""
+        }
+    },
+    "windows": {
+        "release": {
+            "packageCertificateKeyFile": "..\\..\\certificates\\certificat_win8.pfx",
+            "packageThumbprint": "8583C80997AFEFEA72B1417FBBB9F04A8555224A",
+            "publisherId": "CN=iMDEO, O=iMDEO, L=JOUE LES TOURS, S=INDRE ET LOIRE, C=FR"
+        }
+    },
+	"ios": {
+         "release": {
+             "codeSignIdentitiy": "iPhone Developer",
+             "developmentTeam": "K7V98QL2QC"
+         }
+     }
+}
