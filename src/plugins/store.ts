@@ -13,10 +13,5 @@ export const store = createStore({
     resetAllStore() {
       store.dispatch('resetTempStore');
     },
-    resetTempStore(){
-    },
-    showAstreinteModal(){
-
-    }
   },
 });

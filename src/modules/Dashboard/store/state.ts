@@ -1,7 +1,7 @@
 export interface DashBoardState {
-    //listeActions: any
+    listeActions: any
 }
 
 export const state: DashBoardState = {
-    //listeActions: []
+    listeActions: []
 };

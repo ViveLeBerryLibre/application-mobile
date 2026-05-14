@@ -4,7 +4,6 @@ import router from './router';
 import i18n from './plugins/i18n';
 import { IonicVue } from '@ionic/vue';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import { useSQLite } from 'vue-sqlite-hook';
 import { useState } from './plugins/state';
 import { store } from './plugins/store';
 import {msalInstance} from '@/authenticationConfig';
@@ -63,38 +62,8 @@ const onProgressExport = async (progress: string) => {
   }
 };
 
-// SQLite Hook  
-const {echo, getPlatform, createConnection, closeConnection,
-  retrieveConnection, retrieveAllConnections, closeAllConnections,
-  isConnection, addUpgradeStatement, importFromJson, isJsonValid,
-  isDatabase, getDatabaseList, addSQLiteSuffix, deleteOldDatabases,
-  copyFromAssets, checkConnectionsConsistency, removeListeners, isAvailable} = useSQLite({
-    onProgressImport,
-    onProgressExport
-  });
 //Existing Connections
 const [existConn, setExistConn] = useState(false);
-
-// Singleton SQLite Hook  
-app.config.globalProperties.$sqlite = {echo: echo, getPlatform: getPlatform,
-  createConnection: createConnection,
-  closeConnection: closeConnection,
-  retrieveConnection: retrieveConnection,
-  retrieveAllConnections: retrieveAllConnections,
-  closeAllConnections: closeAllConnections,
-  isConnection: isConnection,
-  isDatabase: isDatabase,
-  getDatabaseList: getDatabaseList,
-  addSQLiteSuffix: addSQLiteSuffix,
-  deleteOldDatabases: deleteOldDatabases,
-  addUpgradeStatement: addUpgradeStatement,
-  importFromJson: importFromJson,
-  isJsonValid: isJsonValid,
-  copyFromAssets: copyFromAssets,
-  checkConnectionsConsistency: checkConnectionsConsistency,
-  removeListeners: removeListeners,
-  isAvailable:isAvailable
-};
 
 //  Existing Connections Store
 app.config.globalProperties.$existingConn = {existConn: existConn, setExistConn: setExistConn};

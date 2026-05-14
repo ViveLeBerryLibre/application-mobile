@@ -1,6 +1,3 @@
-import { store } from '@/plugins/store';
-import { AUTH } from '@/modules/Auth/store/mutation-types';
-
 export const Permissions = {
     
     CONSULTER_DEMANDE_INTERVENTION: 'consulter.demande',
@@ -12,12 +9,12 @@ export const Permissions = {
     //on ouvre un toast si l'utilisateur tente d'accéder à une fonctionnalité pour laquelle il ne possède pas les droits
     userCanAccess(...permissionNames: string[]): boolean {
         for (const element of permissionNames) {
-            if (element) {
-                if (!store.state.authState.user.fonctions.includes(element)){
-                    store.commit(AUTH.SET_IS_TOAST_PERMISSION_OPEN, true);
-                    return false;
-                }
-            }
+            // if (element) {
+            //     if (!store.state.authState.user.fonctions.includes(element)){
+            //         store.commit(AUTH.SET_IS_TOAST_PERMISSION_OPEN, true);
+            //         return false;
+            //     }
+            // }
         }
         return true;
     },

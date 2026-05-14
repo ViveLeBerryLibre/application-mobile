@@ -1,19 +1,18 @@
 import axios from 'axios';
-import { store } from '@/plugins/store';
 import qs from 'qs';
 
 const axiosInstance = axios.create({
                                      baseURL: process.env.VUE_APP_API || '' ,
                                    });
 
-axiosInstance.defaults.paramsSerializer = function (params) {
+axiosInstance.defaults.paramsSerializer = function (params: any) {
     return qs.stringify(params, {arrayFormat: 'repeat'});
 };                           
 
 axiosInstance.interceptors
              .response
-             .use(response => response,
-                  error => {
+             .use((response : any) => response,
+                 (error : any) => {
                     // permets de décoder les retours d'erreur au format blob ex : erreur lors du get d'un pdf, le message d'erreur est dans le blob
                     if (
                       error.request.responseType === 'blob' &&
@@ -44,9 +43,9 @@ axiosInstance.interceptors
         
 axiosInstance.interceptors
              .request
-             .use(request => {
+             .use((request : any) => {
                    request.headers = request.headers || {};
-                   request.headers['Authorization'] = `Bearer ${store.state.authState.token}`;
+                   //request.headers['Authorization'] = `Bearer ${store.state.authState.token}`;
                    return Promise.resolve(request);
              });
            

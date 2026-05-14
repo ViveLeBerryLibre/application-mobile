@@ -240,3 +240,14 @@ ion-modal.auto-height .ion-page .inner-content {
   font-size: var(--font-size-medium);
 }
 
+.center{
+  text-align: center;
+}
+
+.--ion-toolbar-background{
+  background: #01a0c6;
+}
+ion-toolbar {
+  --background: #01a0c6;
+  --color: white;
+}

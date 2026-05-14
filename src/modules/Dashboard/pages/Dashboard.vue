@@ -1,31 +1,16 @@
 <template>
   <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Bardary Brothers</ion-title>
+    <ion-header class="green">
+      <ion-toolbar class="green">
+        <ion-title class='center'>Bardary Brothers</ion-title>
+        <div slot="end" class="user-pill" @click="showUserInfo">
+          <img :src="getIcon" alt="userInfo">
+        </div>
       </ion-toolbar>
     </ion-header>
 
     <ion-content :fullscreen="true">
       <div class="dashboard-container">
-        <!-- User Info Button -->
-        <ion-card class="user-info-card">
-          <ion-card-content>
-            <ion-button 
-              fill="clear" 
-              size="large" 
-              class="user-info-button"
-              @click="showUserInfo"
-            >
-              <ion-icon name="person-circle-outline" slot="start"></ion-icon>
-              <div class="user-info-text">
-                <div class="user-name">{{ userData.prenom }} {{ userData.nom }}</div>
-                <div class="user-email">{{ userData.email }}</div>
-              </div>
-            </ion-button>
-          </ion-card-content>
-        </ion-card>
-
         <!-- Action Buttons -->
         <div class="action-buttons">
           <ion-button 
@@ -35,7 +20,7 @@
             class="action-button devis-button"
             @click="navigateToDevis"
           >
-            <ion-icon name="document-text-outline" slot="start"></ion-icon>
+<!--            todo mettre un icon-->
             Devis
           </ion-button>
 
@@ -46,19 +31,31 @@
             class="action-button rapports-button"
             @click="navigateToRapports"
           >
-            <ion-icon name="bar-chart-outline" slot="start"></ion-icon>
+            <!--            todo mettre un icon-->
+            <!--            <ion-icon name="bar-chart-outline" slot="start"></ion-icon>-->
             Rapports
           </ion-button>
 
-          <ion-button 
+<!--          <ion-button
             expand="block" 
             size="large" 
             color="tertiary"
             class="action-button notes-button"
             @click="navigateToNotes"
           >
-            <ion-icon name="create-outline" slot="start"></ion-icon>
             Notes
+          </ion-button>-->
+
+          <ion-button
+            expand="block"
+            size="small"
+            color="tertiary"
+            class="action-button notes-button"
+            @click="goToNotes"
+          >
+            <!--            todo mettre un icon-->
+            <!--            <ion-icon name="create-outline" slot="start"></ion-icon>-->
+            Notes 2
           </ion-button>
         </div>
       </div>
@@ -73,31 +70,32 @@ import {
   IonToolbar, 
   IonTitle, 
   IonContent, 
-  IonCard, 
-  IonCardContent, 
-  IonButton, 
-  IonIcon,
+  IonButton,
+  //IonIcon,
   alertController,
   loadingController,
   toastController
 } from '@ionic/vue';
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import userData from '@/data/userData.json';
 import OpenAIWhisperService from '@/common/services/OpenAIWhisperService';
 
 export default defineComponent({
-  name: 'Dashboard',
+  name: 'DashboardPage',
   components: {
     IonPage,
     IonHeader,
     IonToolbar,
     IonTitle,
     IonContent,
-    IonCard,
-    IonCardContent,
     IonButton,
-    IonIcon
+    //IonIcon
+  },
+  computed: {
+    getIcon() {
+      return require('@/assets/userInfo.png');
+    },
   },
   setup() {
     const router = useRouter();
@@ -119,7 +117,7 @@ export default defineComponent({
     };
 
     const navigateToDevis = () => {
-      router.push('/demandeDevis');
+      router.push('/devis');
     };
 
     const navigateToRapports = () => {
@@ -128,6 +126,10 @@ export default defineComponent({
 
     const navigateToNotes = () => {
       showVoiceNotesOptions();
+    };
+
+    const goToNotes = () => {
+      router.push('/notes');
     };
 
     const showVoiceNotesOptions = async () => {
@@ -315,13 +317,43 @@ export default defineComponent({
       showUserInfo,
       navigateToDevis,
       navigateToRapports,
-      navigateToNotes
+      navigateToNotes,
+      goToNotes,
     };
   }
 });
 </script>
 
 <style scoped>
+/* User pill styling in header */
+.user-pill {
+  display: flex;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 6px 12px;
+  margin-right: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-pill:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.user-icon {
+  color: white;
+  font-size: 20px;
+  margin-right: 6px;
+}
+
+.user-name {
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
 .dashboard-container {
   padding: 20px;
   height: 100%;
@@ -368,6 +400,7 @@ export default defineComponent({
   gap: 16px;
   flex: 1;
   justify-content: center;
+  align-items: center;
 }
 
 .action-button {
@@ -376,12 +409,14 @@ export default defineComponent({
   font-weight: bold;
   border-radius: 12px;
   --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 70%;
 }
 
 .devis-button {
   --background: #3880ff;
   --background-hover: #3171e0;
   --background-activated: #2961c9;
+  text-align: center;
 }
 
 .rapports-button {
@@ -398,5 +433,9 @@ export default defineComponent({
 
 ion-icon {
   font-size: 1.5em;
+}
+
+.green {
+  background-color: #01a0c6 !important;
 }
 </style>

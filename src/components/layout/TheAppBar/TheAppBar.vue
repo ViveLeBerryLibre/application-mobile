@@ -67,8 +67,6 @@
 </template>
 
 <script lang="ts">
-import {AUTH, USER} from '@/modules/Auth/store/mutation-types';
-import { store } from '@/plugins/store';
 import {
   IonHeader,
   IonToolbar,
@@ -89,8 +87,6 @@ import {
 } from '@ionic/vue';
 import { menuOutline, chevronForward, closeSharp, informationCircleOutline, personCircleOutline, mailOutline } from 'ionicons/icons';
 import { defineComponent } from 'vue';
-import SiteService from '@/modules/Site/services/SiteService';
-import { SIGNIN } from '@/modules/SignIn/store/mutation-types';
 
 export default defineComponent({
   name: 'TheAppBar',
@@ -131,9 +127,6 @@ export default defineComponent({
     },
     //Reset les informations de l'utilisateur connecté ainsi que son JWT et renvoie à la page de login
     disconnect(){
-      store.commit(SIGNIN.SET_CLEAR_CACHE, true);
-      store.commit(USER.RESET_USER);
-      store.commit(USER.SET_IS_OLD_LOGIN, false);
       menuController.close(this.menuId).then( () => {
         this.$router.replace('/signIn');
       });
@@ -213,10 +206,8 @@ export default defineComponent({
                 icon: mailOutline,
             },
         ];
-    const userName = store.state.authState.user.sub;
 
     return {
-      userName,
       menuItem,
       menuOutline,
       chevronForward,
@@ -230,20 +221,8 @@ export default defineComponent({
     getMenuId(): string | undefined {
       return this.menuId;
     },
-    getCssVarLisere(): string {
-      return SiteService.getSocieteFromStructureId(`${store.state.siteState.site.structureId}`);
-    },
     getLogo(){
-      const logoName = SiteService.getSocieteFromStructureId(`${store.state.siteState.site.structureId}`);
-      if(logoName === 'inconnue'){
-        return null;
-      } else {
-        return require(`@/assets/dashboard/logos-societes/${logoName}.svg`);
-      }
-    },
-    isToastOpen: {
-      get() { return store.state.authState.isToastPermissionOpen;},
-      set(value: string) { store.commit(AUTH.SET_IS_TOAST_PERMISSION_OPEN, value);}
+
     },
   },
 });
@@ -327,14 +306,14 @@ ion-menu.menu ion-label.soon {
 }
 .bandeau {
   height: 10%;
-  background-color: var(--bandeau);
+  background-color: #01a0c6;
   display: flex;
   align-items: center;
   text-align: center;
   box-shadow: 0 4px 6px #00000029;
 }
 .bandeau ion-toolbar {
-  --background: var(--bandeau);
+  --background: #01a0c6;
   --color: var(--blanc);
   margin-bottom: -4px;
   border-bottom: 4px solid;

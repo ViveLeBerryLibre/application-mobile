@@ -15,7 +15,7 @@ export interface VoiceRecordingResult {
 
 class OpenAIWhisperService {
   private openai: OpenAI | null = null;
-  private apiKey: string = '';
+  private apiKey = '';
 
   constructor() {
     // Initialize OpenAI client when API key is set
@@ -87,7 +87,7 @@ class OpenAIWhisperService {
     try {
       const result = await VoiceRecorder.stopRecording();
       return {
-        recordDataBase64: result.value.recordDataBase64,
+        recordDataBase64: result.value.recordDataBase64 == undefined ? '' : result.value.recordDataBase64,
         msDuration: result.value.msDuration,
         mimeType: result.value.mimeType
       };

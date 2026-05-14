@@ -1,2 +1,6 @@
 OpenAI Whisper API
 mettre vite
+
+test android
+appel ia pour optim texte
+pouvoir modifier le user

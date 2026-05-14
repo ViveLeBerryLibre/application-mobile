@@ -1,13 +1,10 @@
 import * as msal from '@azure/msal-browser';
 import {Router} from 'vue-router';
-import {InAppBrowser, InAppBrowserEvent, InAppBrowserOptions} from '@ionic-native/in-app-browser';
+import {InAppBrowserEvent} from '@ionic-native/in-app-browser';
 import {Capacitor} from '@capacitor/core';
 
-import {msalInstance} from '@/authenticationConfig';
 import StringUtils from '@/common/utils/StringUtils';
 import ErrorManager from '@/common/utils/ErrorManager';
-import {store} from '@/plugins/store';
-import {AUTH} from '@/modules/Auth/store/mutation-types';
 
 /**
  * Surcharge de la méthode de navigation vers les pages externes (vers Azure) de la librairie MSAL.
@@ -52,7 +49,7 @@ export class CustomNavigationClient implements msal.INavigationClient {
         console.log('navigateExternal');
         console.log(url);
         if (Capacitor.isNativePlatform()) {
-            return this.navigateExternalNatif(url, options);
+            //return this.navigateExternalNatif(url, options);
         }
 
         // Code initial de "msal-browser/src/navigation/NavigationClient"
@@ -69,7 +66,7 @@ export class CustomNavigationClient implements msal.INavigationClient {
         });
     }
 
-    async navigateExternalNatif(url: string, options: msal.NavigationOptions): Promise<boolean> {
+    /*async navigateExternalNatif(url: string, options: msal.NavigationOptions): Promise<boolean> {
         console.log('navigateExternalNatif');
         // Si l'url contient un code challenge (généré par la lib Microsoft),
         // on le surcharge (permet d'avoir le code verifier originel nécessaire pour appeler l'étape 2 de connexion)
@@ -135,7 +132,7 @@ export class CustomNavigationClient implements msal.INavigationClient {
                 resolve(true);
             }, options.timeout);
         });
-    }
+    }*/
 
     getValeurParamUrl(url: string, param: string): string {
         let responseParams = url.split('#')[1];
@@ -280,6 +277,6 @@ export class CustomNavigationClient implements msal.INavigationClient {
         const error = this.getValeurParamUrl(event.url, 'error') + ' ' + StringUtils.truncateString(decodeURIComponent(this.getValeurParamUrl(event.url, 'error_description')), 50);
 
         await ErrorManager.processError(error);
-        store.commit(AUTH.SET_SIGN_IN_AZURE_ERROR, error);
+        //store.commit(AUTH.SET_SIGN_IN_AZURE_ERROR, error);
     }
 }
