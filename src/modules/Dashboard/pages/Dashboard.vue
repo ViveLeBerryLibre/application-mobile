@@ -1,5 +1,6 @@
 <template>
   <ion-page>
+<!--
     <ion-header class="green">
       <ion-toolbar class="green">
         <ion-title class='center'>Bardary Brothers</ion-title>
@@ -8,8 +9,9 @@
         </div>
       </ion-toolbar>
     </ion-header>
+-->
 
-    <ion-content :fullscreen="true">
+    <ion-content>
       <div class="dashboard-container">
         <!-- Action Buttons -->
         <div class="action-buttons">
@@ -65,13 +67,9 @@
 
 <script lang="ts">
 import { 
-  IonPage, 
-  IonHeader, 
-  IonToolbar, 
-  IonTitle, 
+  IonPage,
   IonContent, 
   IonButton,
-  //IonIcon,
   alertController,
   loadingController,
   toastController
@@ -85,12 +83,8 @@ export default defineComponent({
   name: 'DashboardPage',
   components: {
     IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonButton,
-    //IonIcon
   },
   computed: {
     getIcon() {
@@ -362,38 +356,6 @@ export default defineComponent({
   gap: 20px;
 }
 
-.user-info-card {
-  margin: 0;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.user-info-button {
-  width: 100%;
-  height: auto;
-  --padding-start: 16px;
-  --padding-end: 16px;
-  --padding-top: 16px;
-  --padding-bottom: 16px;
-}
-
-.user-info-text {
-  margin-left: 12px;
-  text-align: left;
-}
-
-.user-name {
-  font-size: 1.2em;
-  font-weight: bold;
-  color: var(--ion-color-dark);
-}
-
-.user-email {
-  font-size: 0.9em;
-  color: var(--ion-color-medium);
-  margin-top: 4px;
-}
-
 .action-buttons {
   display: flex;
   flex-direction: column;
@@ -435,7 +397,4 @@ ion-icon {
   font-size: 1.5em;
 }
 
-.green {
-  background-color: #01a0c6 !important;
-}
 </style>

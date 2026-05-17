@@ -1,6 +1,9 @@
 (function () {
     window.CONFIG = window.CONFIG || {};
     window.CONFIG = {
+        seviceId: 'service_rikaq7a',
+        templateId: 'template_erv3nam',
+        key: '7iqqOds_LS9qwunE2',
         env: 'REC',
         auth: {
             clientId: '18f00f1c-a92f-47ef-9c1d-8fd53991b4d6',

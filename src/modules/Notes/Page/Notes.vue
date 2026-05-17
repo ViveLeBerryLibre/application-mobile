@@ -1,38 +1,177 @@
 <template>
   <ion-page>
-    <button @click="startListening">
-      🎤 Démarrer
+    <ion-content>
+      <div class="center">
+      <div class="cent-pct">
+        <button class="bouton-record" @click="startListening">
+          🎤 Démarrer
+        </button>
+      </div>
+      <div class="cent-pct">
+        <button class="bouton-stop bouton-record" @click="stopListening">
+          ⛔ Stop
+        </button>
+      </div>
+    </div>
+
+<!--    <button @click="checkText">
+      Corriger
     </button>
 
-    <button @click="stopListening">
-      ⛔ Stop
+    <button @click="fixText">
+      Corriger 2
     </button>
 
-    <p class="text">
-      {{ transcript }}
-    </p>
+    <button @click="corrigerApi">
+      Corriger api
+    </button>-->
+
+    <div>
+<!--      <form @submit.prevent="sendEmail">
+        <input v-model="from_name" type="text" placeholder="Nom" required />
+
+        <input v-model="from_email" type="email" placeholder="Email" required />
+
+        <textarea
+          v-model="message"
+          placeholder="Message"
+          required
+        ></textarea>
+
+        <button type="submit">
+          Envoyer
+        </button>
+      </form>
+
+      <form
+        action="https://formsubmit.co/pierre.bardary@laposte.et"
+        method="POST"
+      >
+        &lt;!&ndash; Désactive le captcha &ndash;&gt;
+        <input type="hidden" name="_captcha" value="false" />
+
+        &lt;!&ndash; Sujet du mail &ndash;&gt;
+        <input
+          type="hidden"
+          name="_subject"
+          value="Nouveau message depuis le site"
+        />
+
+        &lt;!&ndash; Redirection après envoi &ndash;&gt;
+        <input
+          type="hidden"
+          name="_next"
+          value="http://localhost:5173/success"
+        />
+
+        <input
+          type="text"
+          name="name"
+          placeholder="Votre nom"
+          required
+        />
+
+        <input
+          type="email"
+          name="email"
+          placeholder="Votre email"
+          required
+        />
+
+        <textarea
+          name="message"
+          placeholder="Votre message"
+          rows="5"
+          required
+        ></textarea>
+
+        <button type="submit">
+          Envoyer
+        </button>
+      </form>-->
+
+    </div>
+
+    <div class="submit">
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="fca847ec-7cc2-42d8-9daf-77b04d780386">
+        <input type="hidden" name="name" v-model="name" required>
+        <input type="hidden" name="email" v-model="email" required>
+        <textarea hidden name="message" v-model="transcript" required></textarea>
+        <button type="submit">Mail</button>
+      </form>
+
+      <button @click="envoyerServeur">
+        Envoyer au serveur
+      </button>
+    </div>
+
+    <textarea class="textearea" id="transcript" v-model="transcript"></textarea>
+
+    <p>{{ corrected }}</p>
+    <p>{{ corrected0 }}</p>
+    </ion-content>
   </ion-page>
 </template>
 
 <script lang="ts">
-import {IonPage} from '@ionic/vue';
+import {IonPage, IonContent} from '@ionic/vue';
 import {defineComponent} from 'vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import {Capacitor} from '@capacitor/core';
+import { correctText } from '@/common/utils/grammar';
+import NoteService from '@/modules/Notes/service/noteService';
 
-
+import emailjs from '@emailjs/browser';
+import userData from '@/data/userData.json';
 
 export default defineComponent({
   name: 'NotesPage',
   components: {
-    IonPage
+    IonPage,
+    IonContent
   },
   setup(){
     const transcript = ref('');
     let listener: any = null;
     const isNative = Capacitor.isNativePlatform();
     let recognition: any = null;
+    const corrections = ref<any[]>([]);
+    const corrected = ref('');
+    const corrected0 = ref('');
+
+    let email = ref('');
+    const name = ref('Notes');
+
+/*    const from_name = ref('');
+    const from_email = ref('');
+    const message = ref('');*/
+
+/*    const sendEmail = async () => {
+      try {
+        const response = await emailjs.send(
+          'service_fd3klrh',
+          'template_erv3nam',
+          {
+            from_name: from_name.value,
+            from_email: from_email.value,
+            message: message.value
+          },
+          '7iqqOds_LS9qwunE2'
+        );
+
+        console.log('SUCCESS!', response.status, response.text);
+        alert('Email envoyé !');
+      } catch (error) {
+        console.error('FAILED...', error);
+        alert('Erreur lors de l’envoi');
+      }
+    };*/
+
+    const envoyerServeur = async () => {
+      await NoteService.envoyerNotesServeur(transcript.value);
+    };
 
     const checkPermission = async () => {
       const permission = await SpeechRecognition.checkPermissions();
@@ -62,7 +201,6 @@ export default defineComponent({
           maxResults: 1,
         });
       } else {
-        console.log('Platform not supported');
         const SpeechRecognition =
           (window as any).SpeechRecognition ||
           (window as any).webkitSpeechRecognition;
@@ -95,16 +233,89 @@ export default defineComponent({
         recognition.start();
       }
 
-
     };
 
     const stopListening = async () => {
-      await SpeechRecognition.stop();
+      if (isNative) {
+        await SpeechRecognition.stop();
+      } else {
+        recognition.stop();
+      }
+    };
+
+    const fixText = async () => {
+      console.log('coucou');
+      corrected.value = 'Correction...';
+
+      corrected.value = await correctText(
+        transcript.value
+      );
+    };
+
+    const corrigerApi = async () => {
+      await NoteService.ameliorerLanguage(transcript.value);
+    };
+
+    const checkText = async () => {
+      const params = new URLSearchParams();
+
+      params.append('text', transcript.value);
+      params.append('language', 'fr');
+
+      const response = await fetch(
+        'https://api.languagetool.org/v2/check',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type':
+              'application/x-www-form-urlencoded',
+          },
+          body: params,
+        }
+      );
+
+      const data = await response.json();
+      console.log(data);
+
+      corrections.value = data.matches.map(
+        (match: any) => ({
+          message: match.message,
+          replacement:
+            match.replacements[0]?.value || '',
+        })
+      );
+      console.log(corrections.value);
+
+      corrected0.value = transcript.value;
+      console.log(corrected0.value);
+
+      const sortedMatches = data.matches.sort(
+        (a: any, b: any) => b.offset - a.offset
+      );
+
+      sortedMatches.forEach((match: any) => {
+        const replacement =
+          match.replacements[0]?.value;
+
+        if (replacement) {
+          corrected0.value =
+            corrected0.value.substring(0, match.offset) +
+            replacement +
+            corrected0.value.substring(
+              match.offset + match.length
+            );
+        }
+
+      });
+      console.log(transcript.value);
+      console.log(corrected0);
     };
 
     onMounted(async () => {
+      email.value = userData.email;
       const available = await SpeechRecognition.available();
 
+      console.log(userData.email);
       console.log('Disponible :', available);
     });
 
@@ -115,24 +326,63 @@ export default defineComponent({
     return {
       startListening,
       stopListening,
+      checkText,
+      fixText,
+      corrigerApi,
+      // sendEmail,
+      envoyerServeur,
+      corrected0,
       transcript,
+      name,
+      email,
+
+/*      from_name,
+      from_email,
+      message*/
+
     };
   }
 });
 </script>
 
 <style scoped>
-.container {
-  padding: 20px;
-}
 
 button {
   margin-right: 10px;
   padding: 10px 15px;
 }
 
-.text {
+.submit {
+  display: flex;
+  justify-content: center;
+}
+.bouton-record{
+  background-color: #1fb854;
+  width: 60%;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.bouton-stop{
+  background-color: #cf3c4f;
+}
+.center{
   margin-top: 20px;
-  font-size: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.cent-pct {
+  width: 100%;
+}
+.textearea {
+  width: 100%;
+  height: 50%;
+  margin-top: 20px;
 }
 </style>
