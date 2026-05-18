@@ -10,7 +10,7 @@ class NotesService {
     public async envoyerNotesServeur(texte :string): Promise<string> {
         const texteDto : TexteDTO = {
             texte : texte,
-            utilisateur : userData.prenom
+            utilisateur : userData.id
         };
         return http.post('/langage/enregistrer' , texteDto);
     }
