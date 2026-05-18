@@ -100,14 +100,12 @@ export default defineComponent({
 
     const saveUserInfo = async (newData: any) => {
       try {
-        // Validation de l'email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(newData.email)) {
           showErrorToast('Format d\'email invalide');
           return;
         }
 
-        // Mise à jour des données locales
         userInfo.value = {
           nom: newData.nom.trim(),
           prenom: newData.prenom.trim(),

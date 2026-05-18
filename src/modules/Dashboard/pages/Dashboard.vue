@@ -98,6 +98,7 @@ export default defineComponent({
     const transcribedText = ref('');
 
     const showUserInfo = async () => {
+
       const alert = await alertController.create({
         header: 'Informations utilisateur',
         message: `
