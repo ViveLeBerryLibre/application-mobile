@@ -1,7 +1,7 @@
 [
 	{
-		"pkg": "@capacitor-community/sqlite",
-		"classpath": "com.getcapacitor.community.database.sqlite.CapacitorSQLitePlugin"
+		"pkg": "@capacitor-community/speech-recognition",
+		"classpath": "com.getcapacitor.community.speechrecognition.SpeechRecognition"
 	},
 	{
 		"pkg": "@capacitor/app",
@@ -40,7 +40,7 @@
 		"classpath": "com.capacitorjs.plugins.statusbar.StatusBarPlugin"
 	},
 	{
-		"pkg": "@imdeo/nfc",
-		"classpath": "com.gh.nfc.NFCPlugin"
+		"pkg": "capacitor-voice-recorder",
+		"classpath": "com.tchvu3.capacitorvoicerecorder.VoiceRecorder"
 	}
 ]

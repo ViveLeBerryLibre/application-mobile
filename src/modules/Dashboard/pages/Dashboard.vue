@@ -78,6 +78,9 @@ import { defineComponent, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import userData from '@/data/userData.json';
 import OpenAIWhisperService from '@/common/services/OpenAIWhisperService';
+import UserService from '@/modules/Dashboard/UserService';
+import {UserDTO} from '@/common/types/UserDTO';
+import {store} from '@/plugins/store';
 
 export default defineComponent({
   name: 'DashboardPage',
@@ -96,15 +99,17 @@ export default defineComponent({
     const userInfo = ref(userData);
     const isRecording = ref(false);
     const transcribedText = ref('');
+    const user : UserDTO = store.getters.getUser;
 
     const showUserInfo = async () => {
+      await  UserService.getUser();
 
       const alert = await alertController.create({
         header: 'Informations utilisateur',
         message: `
-          <strong>Nom:</strong> ${userInfo.value.nom}<br>
-          <strong>Prénom:</strong> ${userInfo.value.prenom}<br>
-          <strong>Email:</strong> ${userInfo.value.email}
+          <strong>Nom:</strong> ${user.nom}<br>
+          <strong>Prénom:</strong> ${user.prenom}<br>
+          <strong>Email:</strong> ${user.email}
         `,
         buttons: ['OK']
       });

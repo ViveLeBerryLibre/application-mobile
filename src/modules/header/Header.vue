@@ -1,11 +1,26 @@
 <template>
   <ion-header class="green">
     <ion-toolbar class="green">
+      <button slot="start" class="user-pill" @click="toggleMenu">
+        <img :src="getMenu" alt="userInfo">
+      </button>
       <ion-title class='center'>Bardary Brothers</ion-title>
       <div slot="end" class="user-pill" @click="showUserInfo">
         <img :src="getIcon" alt="userInfo">
       </div>
     </ion-toolbar>
+    <transition name="fade">
+      <div v-if="isOpen" class="menu-items">
+        <button
+          v-for="item in menuItems"
+          :key="item.label"
+          class="menu-btn"
+          @click="item.action"
+        >
+          {{ item.icon }} {{ item.label }}
+        </button>
+      </div>
+    </transition>
   </ion-header>
 </template>
 
@@ -14,6 +29,12 @@
 import {alertController, IonHeader, IonTitle, IonToolbar, toastController} from '@ionic/vue';
 import {defineComponent, ref} from 'vue';
 import userData from '@/data/userData.json';
+import {store} from '@/plugins/store';
+import {UserDTO} from '@/common/types/UserDTO';
+import userService from '@/modules/Dashboard/UserService';
+import { computed } from 'vue';
+import { useStore } from 'vuex';
+import router from '@/router';
 
 export default defineComponent({
   name: 'HeaderPage',
@@ -26,17 +47,68 @@ export default defineComponent({
     getIcon() {
       return require('@/assets/userInfo.png');
     },
+    getMenu() {
+      return require('@/assets/menu_.png');
+    },
+    getUser(): UserDTO {
+      return store.getters['dashboardState/getUser'];
+    }
   },
   setup() {
+    const menuItems = [
+      {
+        label: 'Accueil',
+        icon: '🏠',
+        action: () => {
+          isOpen.value = false;
+          router.push('/');
+        }
+      },
+      {
+        label: 'Devis',
+        icon: '💰',
+        action: () => {
+          isOpen.value = false;
+          router.push('/devis');
+        }
+      },
+      {
+        label: 'Rapports',
+        icon: '📄',
+        action: () =>
+        {
+          isOpen.value = false;
+          router.push('/rapports');
+        }
+      },
+      {
+        label: 'Notes',
+        icon: '🧾',
+        action: () => {
+          isOpen.value = false;
+          router.push('/notes');
+        }
+      }
+    ];
+    const store = useStore();
+    const isOpen = ref(false);
+    const getUser = computed(() => {
+      return store.getters['dashboardState/getUser'];
+    });
     const userInfo = ref({...userData});
+    const toggleMenu = () => {
+      console.log('toggleMenu');
+      isOpen.value = !isOpen.value;
+    };
+
 
     const showUserInfo = async () => {
       const alert = await alertController.create({
         header: 'Informations utilisateur',
         message: `
-          <strong>Nom:</strong> ${userInfo.value.nom}<br>
-          <strong>Prénom:</strong> ${userInfo.value.prenom}<br>
-          <strong>Email:</strong> ${userInfo.value.email}
+          <strong>Nom:</strong> ${getUser.value.nom}<br>
+          <strong>Prénom:</strong> ${getUser.value.prenom}<br>
+          <strong>Email:</strong> ${getUser.value.email}
         `,
         buttons: [
           {
@@ -55,6 +127,7 @@ export default defineComponent({
     };
 
     const showEditUserInfo = async () => {
+
       const alert = await alertController.create({
         header: 'Modifier les informations',
         inputs: [
@@ -62,19 +135,19 @@ export default defineComponent({
             name: 'nom',
             type: 'text',
             placeholder: 'Nom',
-            value: userInfo.value.nom
+            value: getUser.value.nom
           },
           {
             name: 'prenom',
             type: 'text',
             placeholder: 'Prénom',
-            value: userInfo.value.prenom
+            value: getUser.value.prenom
           },
           {
             name: 'email',
             type: 'email',
             placeholder: 'Email',
-            value: userInfo.value.email
+            value: getUser.value.email
           }
         ],
         buttons: [
@@ -106,14 +179,9 @@ export default defineComponent({
           return;
         }
 
-        userInfo.value = {
-          nom: newData.nom.trim(),
-          prenom: newData.prenom.trim(),
-          email: newData.email.trim()
-        };
-
         // Sauvegarde dans le localStorage
         localStorage.setItem('userData', JSON.stringify(userInfo.value));
+        userService.updateUser(newData);
 
         showSuccessToast('Informations mises à jour avec succès');
       } catch (error) {
@@ -160,8 +228,17 @@ export default defineComponent({
     return {
       userInfo,
       showUserInfo,
+      toggleMenu,
+      isOpen,
+      menuItems
     };
-  }
+  },
+  beforeMount() {
+    console.log('coucou');
+    userService.getUser().then((user: any) => {
+      store.commit('dashboardState/setUser', user.data);
+    });
+  },
 });
 </script>
 

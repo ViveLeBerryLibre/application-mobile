@@ -123,8 +123,7 @@ import {Capacitor} from '@capacitor/core';
 import { correctText } from '@/common/utils/grammar';
 import NoteService from '@/modules/Notes/service/noteService';
 
-import emailjs from '@emailjs/browser';
-import userData from '@/data/userData.json';
+import {store} from '@/plugins/store';
 
 export default defineComponent({
   name: 'NotesPage',
@@ -312,10 +311,9 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      email.value = userData.email;
+      email.value = store.getters.getUser.email;
       const available = await SpeechRecognition.available();
 
-      console.log(userData.email);
       console.log('Disponible :', available);
     });
 

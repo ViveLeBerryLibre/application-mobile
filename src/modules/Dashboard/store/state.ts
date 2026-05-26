@@ -1,7 +1,9 @@
+import {UserDTO} from '@/common/types/UserDTO';
+
 export interface DashBoardState {
-    listeActions: any
+    user: UserDTO;
 }
 
 export const state: DashBoardState = {
-    listeActions: []
+    user: {id: 0, nom: '', prenom: '', email: ''},
 };
