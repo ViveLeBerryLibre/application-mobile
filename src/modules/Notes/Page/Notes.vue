@@ -312,6 +312,9 @@ export default defineComponent({
 
     onMounted(async () => {
       email.value = store.getters.getUser.email;
+      if (isNative) {
+         email.value = 'francois.bardary@gmail.com';
+       }
       const available = await SpeechRecognition.available();
 
       console.log('Disponible :', available);
