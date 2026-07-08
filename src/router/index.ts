@@ -3,6 +3,7 @@ import { RouteRecordRaw } from 'vue-router';
 
 import DashboardPage from '@/modules/Dashboard/pages/Dashboard.vue';
 import NotesPage from '@/modules/Notes/Page/Notes.vue';
+import DevisPage from '@/modules/Devis/Page/Devis.vue';
 
 
 //import {registerGuard} from '@/router/Guards';
@@ -28,6 +29,14 @@ const routes: Array<RouteRecordRaw> = [
     path: '/notes',
     name: 'Notes',
     component: NotesPage,
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/devis',
+    name: 'Devis',
+    component: DevisPage,
     meta: {
       requiresAuth: false
     }

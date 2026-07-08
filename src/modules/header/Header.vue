@@ -1,7 +1,7 @@
 <template>
   <ion-header class="green">
     <ion-toolbar class="green">
-      <button slot="start" class="user-pill" @click="toggleMenu">
+      <button ref="toggleBtnRef" slot="start" class="user-pill" @click="toggleMenu">
         <img :src="getMenu" alt="userInfo">
       </button>
       <ion-title class='center'>Bardary Brothers</ion-title>
@@ -10,7 +10,7 @@
       </div>
     </ion-toolbar>
     <transition name="fade">
-      <div v-if="isOpen" class="menu-items">
+      <div v-if="isOpen" ref="menuRef" class="menu-items">
         <button
           v-for="item in menuItems"
           :key="item.label"
@@ -27,7 +27,7 @@
 <script lang="ts">
 
 import {alertController, IonHeader, IonTitle, IonToolbar, toastController} from '@ionic/vue';
-import {defineComponent, ref} from 'vue';
+import {defineComponent, ref, onMounted, onBeforeUnmount} from 'vue';
 import userData from '@/data/userData.json';
 import {store} from '@/plugins/store';
 import {UserDTO} from '@/common/types/UserDTO';
@@ -55,6 +55,29 @@ export default defineComponent({
     }
   },
   setup() {
+    const menuRef = ref<HTMLElement | null>(null);
+    const toggleBtnRef = ref<HTMLElement | null>(null);
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (!isOpen.value) return;
+
+      const target = event.target as Node;
+      const clickedInsideMenu = menuRef.value && menuRef.value.contains(target);
+      const clickedToggleBtn = toggleBtnRef.value && toggleBtnRef.value.contains(target);
+
+      if (!clickedInsideMenu && !clickedToggleBtn) {
+        isOpen.value = false;
+      }
+    };
+
+    onMounted(() => {
+      document.addEventListener('click', handleClickOutside);
+    });
+
+    onBeforeUnmount(() => {
+      document.removeEventListener('click', handleClickOutside);
+    });
+
     const menuItems = [
       {
         label: 'Accueil',
@@ -108,7 +131,8 @@ export default defineComponent({
         message: `
           <strong>Nom:</strong> ${getUser.value.nom}<br>
           <strong>Prénom:</strong> ${getUser.value.prenom}<br>
-          <strong>Email:</strong> ${getUser.value.email}
+          <strong>Email:</strong> ${getUser.value.email}<br>
+          <strong>Téléphone:</strong> ${getUser.value.telephone}<br>
         `,
         buttons: [
           {
@@ -230,7 +254,9 @@ export default defineComponent({
       showUserInfo,
       toggleMenu,
       isOpen,
-      menuItems
+      menuItems,
+      menuRef,
+      toggleBtnRef
     };
   },
   beforeMount() {
@@ -274,5 +300,61 @@ export default defineComponent({
 
 ion-header {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Menu déroulant ===== */
+.menu-items {
+  display: flex;
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  width: 200px;
+  max-width: 70vw;
+  border-radius: 12px;
+  position: absolute;
+  top: 56px;
+  left: 8px;
+  z-index: 10;
+}
+
+.menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 16px;
+  color: #333333;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.menu-btn:hover {
+  background-color: rgba(1, 160, 198, 0.1);
+}
+
+.menu-btn:active {
+  background-color: rgba(1, 160, 198, 0.2);
+}
+
+.menu-btn + .menu-btn {
+  margin-top: 4px;
+}
+
+/* Transition d'ouverture/fermeture */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
 }
 </style>
