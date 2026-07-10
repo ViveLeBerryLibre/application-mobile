@@ -116,7 +116,7 @@
 
 <script lang="ts">
 import {IonPage, IonContent} from '@ionic/vue';
-import {defineComponent} from 'vue';
+import {computed, defineComponent} from 'vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
 import {Capacitor} from '@capacitor/core';
@@ -142,6 +142,9 @@ export default defineComponent({
 
     let email = ref('');
     const name = ref('Notes');
+    const getUser = computed(() => {
+      return store.getters['dashboardState/getUser'];
+    });
 
 /*    const from_name = ref('');
     const from_email = ref('');
@@ -311,13 +314,23 @@ export default defineComponent({
     };
 
     onMounted(async () => {
-      email.value = store.getters.getUser.email;
+      email.value = getUser.value.email;
       if (isNative) {
-         email.value = 'francois.bardary@gmail.com';
-       }
-      const available = await SpeechRecognition.available();
+        email.value = 'francois.bardary@gmail.com';
 
-      console.log('Disponible :', available);
+        try {
+          const available = await SpeechRecognition.available();
+          console.log('Disponible :', available);
+        } catch (error) {
+          console.error('Erreur available():', error);
+        }
+      } else {
+        const hasWebSpeech =
+            !!(window as any).SpeechRecognition ||
+            !!(window as any).webkitSpeechRecognition;
+
+        console.log('Disponible (web) :', hasWebSpeech);
+      }
     });
 
     onBeforeUnmount(() => {

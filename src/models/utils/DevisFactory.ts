@@ -3,6 +3,7 @@ import { Genre } from '@/models/DevisDTO';
 
 export function createEmptyDevisDTO(): DevisDTO {
     return {
+        cheminImage: '',
         redacteur: '',
         interlocuteurDTO: {
             id: 0,

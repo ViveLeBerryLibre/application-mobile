@@ -58,4 +58,5 @@ export interface DevisDTO {
     montant: number;
     paragrapheUnDTO: ParagrapheDTO;
     paragrapheDeuxDTO: ParagrapheDeuxDTO;
+    cheminImage: string;
 }
