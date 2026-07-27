@@ -35,6 +35,7 @@ import userService from '@/modules/Dashboard/UserService';
 import { computed } from 'vue';
 import { useStore } from 'vuex';
 import router from '@/router';
+import compteurService from '@/modules/Dashboard/CompteurService';
 
 export default defineComponent({
   name: 'HeaderPage',
@@ -120,7 +121,6 @@ export default defineComponent({
     });
     const userInfo = ref({...userData});
     const toggleMenu = () => {
-      console.log('toggleMenu');
       isOpen.value = !isOpen.value;
     };
 
@@ -270,6 +270,9 @@ export default defineComponent({
   beforeMount() {
     userService.getUser().then((user: any) => {
       store.commit('dashboardState/setUser', user.data);
+    });
+    compteurService.getCompteur().then((compteur: any) => {
+      store.commit('dashboardState/setCompteur', compteur.data);
     });
   },
 });

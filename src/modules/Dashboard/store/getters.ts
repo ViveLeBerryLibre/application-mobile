@@ -7,4 +7,7 @@ export const getters: GetterTree<DashBoardState, RootState> = {
     getUser(state: DashBoardState): any {
         return state.user;
     },
+    getCompteur(state: DashBoardState): any {
+        return state.compteur;
+    },
 };

@@ -30,9 +30,19 @@
           </div>
         </div>
 
-        <button class="btn btn-green" @click="recupererDevis">
-          Récupérer un devis
-        </button>
+        <div class="header-bar">
+          <button class="btn btn-green" @click="recupererDevis">
+            Récupérer un devis
+          </button>
+
+          <div class="compteur">
+            {{ getCompteur }}
+            <button ref="toggleBtnRef" slot="start" class="crayon" @click="editCompteur">
+              <img :src="getEdit" alt="crayon">
+            </button>
+          </div>
+        </div>
+
         <div v-if="step === 1" class="form-container">
           <h2 class="section-title">Chantier</h2>
           <div class="form-grid">
@@ -298,7 +308,7 @@
 
 
 <script lang="ts">
-import {IonPage, IonContent} from '@ionic/vue';
+import {IonPage, IonContent, alertController} from '@ionic/vue';
 import {defineComponent, onBeforeMount, onBeforeUnmount, ref, reactive, computed} from 'vue';
 import {SpeechRecognition} from '@capacitor-community/speech-recognition';
 import {Capacitor} from '@capacitor/core';
@@ -306,12 +316,19 @@ import {DevisDTO} from '@/models/DevisDTO';
 import {createEmptyDevisDTO} from '@/models/utils/DevisFactory';
 import {store} from '@/plugins/store';
 import devisService from '@/modules/Devis/service/devisService';
+import dayjs from 'dayjs';
+import compteurService from '@/modules/Dashboard/CompteurService';
 
 export default defineComponent({
   name: 'DevisPage',
   components: {
     IonPage,
     IonContent
+  },
+  computed: {
+    getEdit() {
+      return require('@/assets/edit.png');
+    },
   },
   setup(){
     // Tous les champs "vocaux" centralisés ici
@@ -332,6 +349,9 @@ export default defineComponent({
     let devis = reactive<DevisDTO>(createEmptyDevisDTO());
     const getUser = computed(() => {
       return store.getters['dashboardState/getUser'];
+    });
+    const getCompteur = computed(() => {
+      return 'CNP' + dayjs().year() + '-' + store.getters['dashboardState/getCompteur'];
     });
     const previousNbPoints = ref(1);
 
@@ -559,6 +579,40 @@ export default defineComponent({
       }
     };
 
+    const editCompteur = async () => {
+      const alert = await alertController.create({
+        header: 'Modifier la valeur',
+        inputs: [
+          {
+            name: 'compteur',
+            type: 'text',
+            placeholder: 'Valeur compteur',
+            value: store.getters['dashboardState/getCompteur']
+          },
+        ],
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel'
+          },
+          {
+            text: 'Sauvegarder',
+            handler: (data) => {
+                saveCompteur(data.compteur);
+            }
+          }
+        ]
+      });
+      await alert.present();
+    };
+
+    const saveCompteur = async (newData: number) => {
+      console.log(newData);
+      compteurService.setCompteur(newData).then((compteur: any) => {
+        store.commit('dashboardState/setCompteur', compteur.data);
+      });
+    };
+
     onBeforeMount (() => {
       devis.redacteur = getUser.value.prenom + ' ' + getUser.value.nom;
 
@@ -594,7 +648,9 @@ export default defineComponent({
       showModalDevis,
       devisList,
       selectionnerDevis,
-      fermerModal
+      fermerModal,
+      getCompteur,
+      editCompteur
     };
   }
 });
@@ -877,5 +933,21 @@ export default defineComponent({
   font-size: 13px;
   color: #6b7280;
   margin-top: 2px;
+}
+.header-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.compteur {
+  font-weight: 600;
+  font-size: 16px;
+  color: #111827;
+}
+.crayon {
+  background-color: white;
+  cursor: pointer;
 }
 </style>
