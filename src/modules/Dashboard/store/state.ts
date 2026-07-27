@@ -5,5 +5,5 @@ export interface DashBoardState {
 }
 
 export const state: DashBoardState = {
-    user: {id: 0, nom: '', prenom: '', email: ''},
+    user: {id: 0, nom: '', prenom: '', email: '', telephone: ''},
 };

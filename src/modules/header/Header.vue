@@ -172,6 +172,12 @@ export default defineComponent({
             type: 'email',
             placeholder: 'Email',
             value: getUser.value.email
+          },
+          {
+            name: 'telephone',
+            type: 'text',
+            placeholder: 'Téléphone',
+            value: getUser.value.telephone
           }
         ],
         buttons: [
@@ -205,7 +211,9 @@ export default defineComponent({
 
         // Sauvegarde dans le localStorage
         localStorage.setItem('userData', JSON.stringify(userInfo.value));
-        userService.updateUser(newData);
+        userService.updateUser(newData).then((response: any) => {
+          store.commit('dashboardState/setUser', response.data);
+        });
 
         showSuccessToast('Informations mises à jour avec succès');
       } catch (error) {
@@ -260,7 +268,6 @@ export default defineComponent({
     };
   },
   beforeMount() {
-    console.log('coucou');
     userService.getUser().then((user: any) => {
       store.commit('dashboardState/setUser', user.data);
     });

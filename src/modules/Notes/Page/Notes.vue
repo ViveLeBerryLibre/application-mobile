@@ -246,7 +246,6 @@ export default defineComponent({
     };
 
     const fixText = async () => {
-      console.log('coucou');
       corrected.value = 'Correction...';
 
       corrected.value = await correctText(
