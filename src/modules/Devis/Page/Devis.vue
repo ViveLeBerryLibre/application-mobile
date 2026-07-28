@@ -620,7 +620,7 @@ export default defineComponent({
       devis.interlocuteurDTO.prenom = getUser.value.prenom;
       devis.interlocuteurDTO.nom = getUser.value.nom;
       devis.interlocuteurDTO.telephone = getUser.value.telephone;
-      devis.interlocuteurDTO.mail = getUser.value.mail;
+      devis.interlocuteurDTO.mail = getUser.value.email;
     });
 
     onBeforeUnmount(() => {
