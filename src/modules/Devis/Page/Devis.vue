@@ -368,10 +368,24 @@ export default defineComponent({
     };
 
     const genererDevis = async () => {
+      devis.redacteur = getUser.value.prenom + ' ' + getUser.value.nom;
+
+      devis.interlocuteurDTO.id = getUser.value.id;
+      devis.interlocuteurDTO.prenom = getUser.value.prenom;
+      devis.interlocuteurDTO.nom = getUser.value.nom;
+      devis.interlocuteurDTO.telephone = getUser.value.telephone;
+      devis.interlocuteurDTO.mail = getUser.value.email;
       await devisService.genererDevis(devis);
     };
 
     const sauvegarderDevis = async () => {
+      devis.redacteur = getUser.value.prenom + ' ' + getUser.value.nom;
+
+      devis.interlocuteurDTO.id = getUser.value.id;
+      devis.interlocuteurDTO.prenom = getUser.value.prenom;
+      devis.interlocuteurDTO.nom = getUser.value.nom;
+      devis.interlocuteurDTO.telephone = getUser.value.telephone;
+      devis.interlocuteurDTO.mail = getUser.value.email;
       await devisService.sauvegarderDevis(devis);
     };
 
