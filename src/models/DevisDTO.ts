@@ -22,7 +22,7 @@ export interface InterlocuteurDTO {
 export interface ChantierDTO {
     typeChantier: string;
     libelle: string;
-    adresse: string;
+    adresseDTO: AdresseDTO;
     anneeConstruction: number | null;
     nature: string;
 }

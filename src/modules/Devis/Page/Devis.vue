@@ -60,8 +60,16 @@
               <input v-model="devis.chantierDTO.libelle">
             </div>
             <div class="form-field">
-              <label>Adresse</label>
-              <input v-model="devis.chantierDTO.adresse">
+              <label>N° et nom rue</label>
+              <input v-model="devis.chantierDTO.adresseDTO.nomRue">
+            </div>
+            <div class="form-field">
+              <label>Code Postal</label>
+              <input v-model="devis.chantierDTO.adresseDTO.codePostal">
+            </div>
+            <div class="form-field">
+              <label>Ville</label>
+              <input v-model="devis.chantierDTO.adresseDTO.ville">
             </div>
             <div class="form-field">
               <label>Année de construction</label>

@@ -15,7 +15,9 @@ export function createEmptyDevisDTO(): DevisDTO {
         chantierDTO: {
             typeChantier: '',
             libelle: '',
-            adresse: '',
+            adresseDTO: {
+                libelle: '', codePostal: 0, nomRue: '', numero: 0, ville: ''
+            },
             anneeConstruction: null,
             nature: '',
         },
