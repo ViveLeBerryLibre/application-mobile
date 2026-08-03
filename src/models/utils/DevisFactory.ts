@@ -5,6 +5,7 @@ export function createEmptyDevisDTO(): DevisDTO {
     return {
         cheminImage: '',
         redacteur: '',
+        verificateur: '',
         interlocuteurDTO: {
             id: 0,
             prenom: '',
@@ -15,6 +16,7 @@ export function createEmptyDevisDTO(): DevisDTO {
         chantierDTO: {
             typeChantier: '',
             libelle: '',
+            mission: '',
             adresseDTO: {
                 libelle: '', codePostal: 0, nomRue: '', numero: 0, ville: ''
             },

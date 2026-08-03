@@ -44,6 +44,10 @@
         </div>
 
         <div v-if="step === 1" class="form-container">
+            <div class="form-field">
+              <label>Vérificateur</label>
+              <input v-model="devis.verificateur">
+            </div>
           <h2 class="section-title">Chantier</h2>
           <div class="form-grid">
             <div class="form-field">
@@ -58,6 +62,10 @@
             <div class="form-field">
               <label>Libellé</label>
               <input v-model="devis.chantierDTO.libelle">
+            </div>
+            <div class="form-field">
+              <label>Mission</label>
+              <input v-model="devis.chantierDTO.mission">
             </div>
             <div class="form-field">
               <label>N° et nom rue</label>

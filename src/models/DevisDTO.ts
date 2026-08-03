@@ -21,6 +21,7 @@ export interface InterlocuteurDTO {
 
 export interface ChantierDTO {
     typeChantier: string;
+    mission: string;
     libelle: string;
     adresseDTO: AdresseDTO;
     anneeConstruction: number | null;
@@ -52,6 +53,7 @@ export interface ParagrapheDeuxDTO {
 
 export interface DevisDTO {
     redacteur: string;
+    verificateur: string;
     interlocuteurDTO: InterlocuteurDTO;
     chantierDTO: ChantierDTO;
     clientDTO: ClientDTO;
