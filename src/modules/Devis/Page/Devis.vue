@@ -48,7 +48,7 @@
               <label>Vérificateur</label>
               <input v-model="devis.verificateur">
             </div>
-          <h2 class="section-title">Chantier</h2>
+          <h2 class="section-title">Projet</h2>
           <div class="form-grid">
             <div class="form-field">
               <label>Type chantier</label>
@@ -60,11 +60,11 @@
               </select>
             </div>
             <div class="form-field">
-              <label>Libellé</label>
+              <label>Nom du projet</label>
               <input v-model="devis.chantierDTO.libelle">
             </div>
             <div class="form-field">
-              <label>Mission</label>
+              <label>Mission (page2)</label>
               <input v-model="devis.chantierDTO.mission">
             </div>
             <div class="form-field">
